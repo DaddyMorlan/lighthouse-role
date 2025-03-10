@@ -1,0 +1,40 @@
+---
+# tasks file for lighthouse-role
+- name: Make lighthouse dir
+  ansible.builtin.file:
+    path: "{{ lighthouse_install_dir }}"
+    state: directory
+    mode: '0755'
+
+- name: Download lighthouse latest zip
+  ansible.builtin.get_url:
+    url: "https://github.com/VKCOM/lighthouse/archive/refs/heads/master.zip"
+    dest: "/tmp/lighthouse.zip"
+    mode: '0644'
+
+- name: Install required packages for extracting archives
+  ansible.builtin.package:
+    name:
+    - unzip
+    - tar
+    - gzip
+    - bzip2
+    state: present
+
+- name: Extract lighthouse
+  ansible.builtin.unarchive:
+    src: "/tmp/lighthouse.zip"
+    dest: "{{ lighthouse_install_dir }}"
+    remote_src: true
+
+- name: Install lighthouse packages
+  become: true
+  ansible.builtin.yum:
+    name: "{{ nginx_package }}"
+
+- name: Deploy nginx config
+  ansible.builtin.template:
+    src: "{{ nginx_config_path }}"
+    dest: "{{ nginx_config_file }}"
+    mode: '0755'
+  notify: Start nginx service
