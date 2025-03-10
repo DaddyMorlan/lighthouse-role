@@ -1,38 +1,48 @@
-Role Name
+Lighthouse role
 =========
 
-A brief description of the role goes here.
+Deploy Lighthouse to host
 
 Requirements
 ------------
+Centos 7
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
-
-Role Variables
+Role Variables & default values
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+- `lighthouse_address` - address for your machine
+- `lighthouse_install_dir` - directory to download and unarchive lighthouse package
+- `nginx_config_path` - local nginx config path
+- `nginx_config_file` - *DO NOT CHANE* path to save nginx config
+- `nginx_package` - name of nginx package
+- `nginx_port` - port to access lighthouse
 
-Dependencies
-------------
+| Name           | Default Value | Description                        |
+| -------------- | ------------- | -----------------------------------|
+| `lighthouse_address` | EMPTY | address for your machine |
+| `lighthouse_install_dir` | /opt/lighthouse | directory to download and unarchive lighthouse package |
+| `nginx_config_path` | template/lighthouse.conf | local nginx config path |
+| `nginx_config_file` | /etc/nginx/conf.d/light.conf | *DO NOT CHANE* path to save nginx config |
+| `nginx_package` | nginx.x86_64 | name of nginx package |
+| `nginx_port` | 45454 | port to access lighthouse |
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
 
 Example Playbook
 ----------------
 
 Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
 
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+    - src: git@github.com:DaddyMorlan/lighthouse-role.git
+    scm: git
+    version: "1.0"
+    name: lighthouse 
 
 License
 -------
 
-BSD
+Morlan
 
 Author Information
 ------------------
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+DaddyMorlan
